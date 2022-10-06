@@ -1,0 +1,14 @@
+services:
+  backend:
+    container_name: federation_backend
+    build:
+      context: .
+      dockerfile: docker/backend/Dockerfile
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./backend:/var/www/
+
+  postgres:
+    container_name: federation_postgres
+    image: postgres:14.5
