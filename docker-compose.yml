@@ -18,7 +18,14 @@ services:
       - "8080:8080"
     volumes:
       - ./backend:/var/www/
+    environment:
+      - POSTGRESQL_URL=postgres://federation:development@federation_postgres:5432/federation?sslmode=disable
 
   postgres:
     container_name: federation_postgres
     image: postgres:14.5
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_PASSWORD=development
+      - POSTGRES_USER=federation
