@@ -1,4 +1,14 @@
 services:
+  gateway:
+    container_name: federation_gateway
+    build:
+      context: .
+      dockerfile: docker/gateway/Dockerfile
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./gateway:/var/www/
+
   backend:
     container_name: federation_backend
     build:
