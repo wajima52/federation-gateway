@@ -1,4 +1,4 @@
-package backend
+package main
 
 import (
 	_ "github.com/99designs/gqlgen"

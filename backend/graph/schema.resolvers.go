@@ -5,10 +5,9 @@ package graph
 
 import (
 	"context"
+	"federation-gateway/backend/graph/generated"
+	"federation-gateway/backend/graph/model"
 	"fmt"
-
-	"github.com/wajima52/federation-gateway/graph/generated"
-	"github.com/wajima52/federation-gateway/graph/model"
 )
 
 // CreateTodo is the resolver for the createTodo field.

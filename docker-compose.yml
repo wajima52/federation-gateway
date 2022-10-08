@@ -17,9 +17,12 @@ services:
     ports:
       - "8080:8080"
     volumes:
-      - ./backend:/var/www/
+      - ./backend:/go/src/app
     environment:
-      - POSTGRESQL_URL=postgres://federation:development@federation_postgres:5432/federation?sslmode=disable
+      - POSTGRESQL_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@federation_postgres:5432/${POSTGRES_USER}?sslmode=disable
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}
+      - DB_HOST=federation_postgres
 
   postgres:
     container_name: federation_postgres
@@ -27,5 +30,5 @@ services:
     ports:
       - "5432:5432"
     environment:
-      - POSTGRES_PASSWORD=development
-      - POSTGRES_USER=federation
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - POSTGRES_USER=${POSTGRES_USER}

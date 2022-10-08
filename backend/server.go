@@ -1,14 +1,16 @@
 package main
 
 import (
+	"federation-gateway/backend/configs/database"
+	"federation-gateway/backend/graph"
+	"federation-gateway/backend/graph/generated"
+	"federation-gateway/backend/models"
 	"log"
 	"net/http"
 	"os"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"
-	"github.com/wajima52/federation-gateway/graph"
-	"github.com/wajima52/federation-gateway/graph/generated"
 )
 
 const defaultPort = "8080"
@@ -18,6 +20,8 @@ func main() {
 	if port == "" {
 		port = defaultPort
 	}
+	db := database.DbInit()
+	db.AutoMigrate(&models.User{})
 
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
