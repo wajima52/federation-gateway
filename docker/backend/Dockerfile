@@ -4,4 +4,7 @@ WORKDIR ${ROOT}
 
 RUN go install -tags 'postgres' github.com/golang-migrate/migrate/v4/cmd/migrate@v4.15.2
 
+RUN go install github.com/volatiletech/sqlboiler/v4@latest
+RUN go install github.com/volatiletech/sqlboiler/v4/drivers/sqlboiler-psql@latest
+
 CMD ["go", "run", "server.go"]

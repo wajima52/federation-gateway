@@ -20,9 +20,10 @@ services:
       - ./backend:/go/src/app
     environment:
       - POSTGRESQL_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@federation_postgres:5432/${POSTGRES_USER}?sslmode=disable
-      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
-      - POSTGRES_USER=${POSTGRES_USER}
-      - DB_HOST=federation_postgres
+      - PSQL_PASS=${POSTGRES_PASSWORD}
+      - PSQL_USER=${POSTGRES_USER}
+      - PSQL_DB=${POSTGRES_USER}
+      - PSQL_HOSTNAME=federation_postgres
 
   postgres:
     container_name: federation_postgres
