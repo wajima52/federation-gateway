@@ -8,6 +8,11 @@ type User {
   email: String!
 }
 
+type Todo {
+  id: ID!
+  content: String!
+}
+
 type Query {
   users: [User!]!
 }

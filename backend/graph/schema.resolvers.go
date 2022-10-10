@@ -7,6 +7,7 @@ import (
 	"context"
 	"federation-gateway/backend/graph/generated"
 	"federation-gateway/backend/models"
+
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
