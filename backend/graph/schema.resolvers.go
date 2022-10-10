@@ -7,11 +7,12 @@ import (
 	"context"
 	"federation-gateway/backend/graph/generated"
 	"federation-gateway/backend/models"
+	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context) ([]*models.User, error) {
-	return r.users, nil
+	return models.Users().All(ctx, boil.GetContextDB())
 }
 
 // Query returns generated.QueryResolver implementation.
