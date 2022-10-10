@@ -26,6 +26,7 @@ import (
 type User struct {
 	ID        int       `boil:"id" json:"id" toml:"id" yaml:"id"`
 	Name      string    `boil:"name" json:"name" toml:"name" yaml:"name"`
+	Email     string    `boil:"email" json:"email" toml:"email" yaml:"email"`
 	CreatedAt null.Time `boil:"created_at" json:"createdAt,omitempty" toml:"createdAt" yaml:"createdAt,omitempty"`
 	UpdatedAt null.Time `boil:"updated_at" json:"updatedAt,omitempty" toml:"updatedAt" yaml:"updatedAt,omitempty"`
 	DeletedAt null.Time `boil:"deleted_at" json:"deletedAt,omitempty" toml:"deletedAt" yaml:"deletedAt,omitempty"`
@@ -37,12 +38,14 @@ type User struct {
 var UserColumns = struct {
 	ID        string
 	Name      string
+	Email     string
 	CreatedAt string
 	UpdatedAt string
 	DeletedAt string
 }{
 	ID:        "id",
 	Name:      "name",
+	Email:     "email",
 	CreatedAt: "created_at",
 	UpdatedAt: "updated_at",
 	DeletedAt: "deleted_at",
@@ -51,12 +54,14 @@ var UserColumns = struct {
 var UserTableColumns = struct {
 	ID        string
 	Name      string
+	Email     string
 	CreatedAt string
 	UpdatedAt string
 	DeletedAt string
 }{
 	ID:        "users.id",
 	Name:      "users.name",
+	Email:     "users.email",
 	CreatedAt: "users.created_at",
 	UpdatedAt: "users.updated_at",
 	DeletedAt: "users.deleted_at",
@@ -137,12 +142,14 @@ func (w whereHelpernull_Time) IsNotNull() qm.QueryMod { return qmhelper.WhereIsN
 var UserWhere = struct {
 	ID        whereHelperint
 	Name      whereHelperstring
+	Email     whereHelperstring
 	CreatedAt whereHelpernull_Time
 	UpdatedAt whereHelpernull_Time
 	DeletedAt whereHelpernull_Time
 }{
 	ID:        whereHelperint{field: "\"users\".\"id\""},
 	Name:      whereHelperstring{field: "\"users\".\"name\""},
+	Email:     whereHelperstring{field: "\"users\".\"email\""},
 	CreatedAt: whereHelpernull_Time{field: "\"users\".\"created_at\""},
 	UpdatedAt: whereHelpernull_Time{field: "\"users\".\"updated_at\""},
 	DeletedAt: whereHelpernull_Time{field: "\"users\".\"deleted_at\""},
@@ -165,8 +172,8 @@ func (*userR) NewStruct() *userR {
 type userL struct{}
 
 var (
-	userAllColumns            = []string{"id", "name", "created_at", "updated_at", "deleted_at"}
-	userColumnsWithoutDefault = []string{"name"}
+	userAllColumns            = []string{"id", "name", "email", "created_at", "updated_at", "deleted_at"}
+	userColumnsWithoutDefault = []string{"name", "email"}
 	userColumnsWithDefault    = []string{"id", "created_at", "updated_at", "deleted_at"}
 	userPrimaryKeyColumns     = []string{"id"}
 	userGeneratedColumns      = []string{}
