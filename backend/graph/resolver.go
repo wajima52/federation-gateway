@@ -8,4 +8,5 @@ import "federation-gateway/backend/models"
 
 type Resolver struct {
 	users []*models.User
+	todos []*models.Todo
 }

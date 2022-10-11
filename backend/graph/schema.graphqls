@@ -11,8 +11,10 @@ type User {
 type Todo {
   id: ID!
   content: String!
+  User: User
 }
 
 type Query {
   users: [User!]!
+  todos: [Todo!]!
 }

@@ -52,3 +52,5 @@ autobind:
 models:
   User:
     model: federation-gateway/backend/models.User
+  Todo:
+    model: federation-gateway/backend/models.Todo

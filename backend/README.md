@@ -1,6 +1,10 @@
 #### マイグレーション
 - 参考: [golang-migrate/migrate](https://github.com/golang-migrate/migrate)
--  up
+- create
+```aidl
+/go/bin/migrate create -ext sql -dir db/migrations -tz "Asia/Tokyo" create_XXX_table
+```
+- up
 ```aidl
 /go/bin/migrate -database ${POSTGRESQL_URL} -path db/migrations up
 ```
@@ -9,7 +13,7 @@
 - 参考: [volatiletech/sqlboiler](https://github.com/volatiletech/sqlboiler)
 - モデル作成
 ```aidl
-sqlboiler psql
+/go/bin/sqlboiler --struct-tag-casing camel psql
 ```
 
 #### GraphQL
