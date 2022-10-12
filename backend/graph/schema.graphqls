@@ -6,12 +6,13 @@ type User {
   id: ID!
   name: String!
   email: String!
+  todos: [Todo!]!
 }
 
 type Todo {
   id: ID!
   content: String!
-  User: User
+  user: User
 }
 
 type Query {

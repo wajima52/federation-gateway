@@ -36,6 +36,7 @@ func main() {
 	defer db.Close()
 
 	boil.SetDB(db)
+	boil.DebugMode = true
 	srv := handler.NewDefaultServer(generated.NewExecutableSchema(generated.Config{Resolvers: &graph.Resolver{}}))
 
 	http.Handle("/", playground.Handler("GraphQL playground", "/query"))
