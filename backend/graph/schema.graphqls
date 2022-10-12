@@ -16,6 +16,6 @@ type Todo {
 }
 
 type Query {
-  users: [User!]!
-  todos: [Todo!]!
+  users(count: Int = 10): [User!]!
+  todos(count: Int = 10): [Todo!]!
 }

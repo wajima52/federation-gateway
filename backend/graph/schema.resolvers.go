@@ -7,19 +7,20 @@ import (
 	"context"
 	"federation-gateway/backend/graph/generated"
 	"federation-gateway/backend/models"
+
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 // Users is the resolver for the users field.
-func (r *queryResolver) Users(ctx context.Context) ([]*models.User, error) {
-	return models.Users(qm.Load("Todos")).All(ctx, boil.GetContextDB())
+func (r *queryResolver) Users(ctx context.Context, count *int) ([]*models.User, error) {
+	return models.Users(qm.Load("Todos"), qm.Limit(*count)).All(ctx, boil.GetContextDB())
 }
 
 // Todos is the resolver for the todos field.
-func (r *queryResolver) Todos(ctx context.Context) ([]*models.Todo, error) {
-	return models.Todos(qm.Load("User")).All(ctx, boil.GetContextDB())
+func (r *queryResolver) Todos(ctx context.Context, count *int) ([]*models.Todo, error) {
+	return models.Todos(qm.Load("User"), qm.Limit(*count)).All(ctx, boil.GetContextDB())
 }
 
 // User is the resolver for the User field.
