@@ -1,6 +1,6 @@
 services:
   gateway:
-    container_name: federation_gateway
+    container_name: ${SERVICE_NAME}_gateway
     build:
       context: .
       dockerfile: docker/gateway/Dockerfile
@@ -10,7 +10,7 @@ services:
       - ./gateway:/var/www/
 
   backend:
-    container_name: federation_backend
+    container_name: ${SERVICE_NAME}_backend
     build:
       context: .
       dockerfile: docker/backend/Dockerfile
@@ -26,7 +26,7 @@ services:
       - PSQL_HOSTNAME=federation_postgres
 
   postgres:
-    container_name: federation_postgres
+    container_name: ${SERVICE_NAME}_postgres
     image: postgres:14.5
     ports:
       - "5432:5432"
