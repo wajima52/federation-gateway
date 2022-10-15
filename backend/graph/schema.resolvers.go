@@ -6,12 +6,23 @@ package graph
 import (
 	"context"
 	"federation-gateway/backend/graph/generated"
+	"federation-gateway/backend/graph/model"
 	"federation-gateway/backend/models"
 
 	"github.com/99designs/gqlgen/graphql"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
+
+// CreateTodo is the resolver for the createTodo field.
+func (r *mutationResolver) CreateTodo(ctx context.Context, input model.NewTodo) (*models.Todo, error) {
+	todo := models.Todo{
+		UserID:  input.UserID,
+		Content: input.Content,
+	}
+	todo.Insert(ctx, boil.GetContextDB(), boil.Infer())
+	return models.Todos(models.TodoWhere.ID.EQ(todo.ID)).One(ctx, boil.GetContextDB())
+}
 
 // Users is the resolver for the users field.
 func (r *queryResolver) Users(ctx context.Context, count *int) ([]*models.User, error) {
@@ -33,6 +44,9 @@ func (r *userResolver) Todos(ctx context.Context, obj *models.User) ([]*models.T
 	return obj.R.Todos, nil
 }
 
+// Mutation returns generated.MutationResolver implementation.
+func (r *Resolver) Mutation() generated.MutationResolver { return &mutationResolver{r} }
+
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
@@ -42,6 +56,7 @@ func (r *Resolver) Todo() generated.TodoResolver { return &todoResolver{r} }
 // User returns generated.UserResolver implementation.
 func (r *Resolver) User() generated.UserResolver { return &userResolver{r} }
 
+type mutationResolver struct{ *Resolver }
 type queryResolver struct{ *Resolver }
 type todoResolver struct{ *Resolver }
 type userResolver struct{ *Resolver }
@@ -73,5 +88,3 @@ func GetPreloadString(prefix, name string) string {
 	}
 	return name
 }
-
-type mutationResolver struct{ *Resolver }

@@ -19,3 +19,12 @@ type Query {
   users(count: Int = 10): [User!]!
   todos(count: Int = 10): [Todo!]!
 }
+
+input NewTodo {
+  content: String!
+  userId: Int!
+}
+
+type Mutation {
+  createTodo(input: NewTodo!): Todo!
+}
