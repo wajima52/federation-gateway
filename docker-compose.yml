@@ -24,6 +24,21 @@ services:
       - PSQL_USER=${POSTGRES_USER}
       - PSQL_DB=${POSTGRES_USER}
       - PSQL_HOSTNAME=federation_postgres
+  accounts:
+    container_name: federation_accounts
+    build:
+      context: .
+      dockerfile: docker/accounts/Dockerfile
+    ports:
+      - "8082:8082"
+    volumes:
+      - ./accounts:/go/src/app
+    environment:
+      - POSTGRESQL_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@federation_postgres:5432/federation_accounts?sslmode=disable
+      - PSQL_PASS=${POSTGRES_PASSWORD}
+      - PSQL_USER=${POSTGRES_USER}
+      - PSQL_DB=federation_accounts
+      - PSQL_HOSTNAME=federation_postgres
 
   router:
     container_name: federation_router
