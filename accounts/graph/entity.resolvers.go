@@ -5,15 +5,16 @@ package graph
 
 import (
 	"context"
+	"github.com/volatiletech/sqlboiler/v4/boil"
+	"strconv"
 	"subgraph/graph/generated"
-	"subgraph/graph/model"
+	"subgraph/models"
 )
 
 // FindAccountByID is the resolver for the findAccountByID field.
-func (r *entityResolver) FindAccountByID(ctx context.Context, id string) (*model.Account, error) {
-	return &model.Account{
-		ID: id,
-	}, nil
+func (r *entityResolver) FindAccountByID(ctx context.Context, id string) (*models.Account, error) {
+	num, _ := strconv.Atoi(id)
+	return models.FindAccount(ctx, boil.GetContextDB(), num)
 }
 
 // Entity returns generated.EntityResolver implementation.

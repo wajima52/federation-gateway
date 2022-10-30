@@ -5,10 +5,11 @@ package graph
 
 import (
 	"context"
-	"github.com/volatiletech/sqlboiler/v4/boil"
-	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 	"subgraph/graph/generated"
 	"subgraph/models"
+
+	"github.com/volatiletech/sqlboiler/v4/boil"
+	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 // Products is the resolver for the products field.

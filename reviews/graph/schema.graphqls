@@ -2,7 +2,8 @@
 #
 # https://gqlgen.com/getting-started/
 
-type Review {
+type Review @key(fields: "id") {
+    id: ID!
     content: String!
     author: Account!
     product: Product!
@@ -13,5 +14,5 @@ extend type Account @key(fields: "id") {
 }
 
 extend type Product @key(fields: "id") {
-    reviews: [Review]
+    reviews: [Review] @requires(fields: "name")
 }
