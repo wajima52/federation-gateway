@@ -15,7 +15,7 @@ import (
 	_ "github.com/lib/pq"
 )
 
-const defaultPort = "8080"
+const defaultPort = "8082"
 
 func main() {
 	port := os.Getenv("PORT")

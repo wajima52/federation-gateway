@@ -7,3 +7,7 @@ type Account {
     name: String!
     email: String!
 }
+
+type Query {
+    accounts(count: Int = 10): [Account!]!
+}
