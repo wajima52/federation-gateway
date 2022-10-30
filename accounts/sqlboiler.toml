@@ -1,5 +1,5 @@
 [psql]
-dbname="federation"
+dbname="federation_accounts"
 host="federation_postgres"
 user="federation"
 pass="development"
