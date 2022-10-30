@@ -2,11 +2,11 @@
 - 参考: [golang-migrate/migrate](https://github.com/golang-migrate/migrate)
 - create
 ```aidl
-migrate create -ext sql -dir db/migrations -tz "Asia/Tokyo" create_XXX_table
+/go/bin/migrate create -ext sql -dir db/migrations -tz "Asia/Tokyo" create_XXX_table
 ```
 - up
 ```aidl
-migrate -database ${POSTGRESQL_URL} -path db/migrations up
+/go/bin/migrate -database ${POSTGRESQL_URL} -path db/migrations up
 ```
 
 #### Model作成
