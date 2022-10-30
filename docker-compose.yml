@@ -56,6 +56,22 @@ services:
       - PSQL_DB=federation_products
       - PSQL_HOSTNAME=federation_postgres
 
+  reviews:
+    container_name: federation_reviews
+    build:
+      context: .
+      dockerfile: docker/accounts/Dockerfile
+    ports:
+      - "8084:8084"
+    volumes:
+      - ./reviews:/go/src/app
+    environment:
+      - POSTGRESQL_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@federation_postgres:5432/federation_reviews?sslmode=disable
+      - PSQL_PASS=${POSTGRES_PASSWORD}
+      - PSQL_USER=${POSTGRES_USER}
+      - PSQL_DB=federation_reviews
+      - PSQL_HOSTNAME=federation_postgres
+
   router:
     container_name: federation_router
     image: ghcr.io/apollographql/router:v1.2.0
