@@ -8,6 +8,10 @@ services:
       - "3000:3000"
     volumes:
       - ./gateway:/var/www/
+    depends_on:
+      - accounts
+      - products
+      - reviews
 
   backend:
     container_name: federation_backend

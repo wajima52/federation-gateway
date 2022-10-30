@@ -13,7 +13,9 @@ import {IntrospectAndCompose} from "@apollo/gateway";
       gateway: {
         supergraphSdl: new IntrospectAndCompose({
           subgraphs: [
-            {name: 'todos', url: 'http://federation_backend:8080/query'}
+            {name: 'accounts', url: 'http://federation_accounts:8082/query'},
+            {name: 'products', url: 'http://federation_products:8083/query'},
+            {name: 'reviews', url: 'http://federation_reviews:8084/query'}
           ]
         })
       }
