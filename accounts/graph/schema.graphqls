@@ -2,3 +2,8 @@
 #
 # https://gqlgen.com/getting-started/
 
+type Account {
+    id: ID!
+    name: String!
+    email: String!
+}

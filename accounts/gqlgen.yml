@@ -50,3 +50,5 @@ autobind:
 # modelgen, the others will be allowed when binding to fields. Configure them to
 # your liking
 models:
+  Account:
+    model: subgraph/models.Account
