@@ -1,6 +1,6 @@
 services:
   gateway:
-    container_name: ${SERVICE_NAME}_gateway
+    container_name: federation_gateway
     build:
       context: .
       dockerfile: docker/gateway/Dockerfile
@@ -10,7 +10,7 @@ services:
       - ./gateway:/var/www/
 
   backend:
-    container_name: ${SERVICE_NAME}_backend
+    container_name: federation_backend
     build:
       context: .
       dockerfile: docker/backend/Dockerfile
@@ -25,8 +25,25 @@ services:
       - PSQL_DB=${POSTGRES_USER}
       - PSQL_HOSTNAME=federation_postgres
 
+  router:
+    container_name: federation_router
+    image: ghcr.io/apollographql/router:v1.2.0
+    ports:
+      - "4000:4000"
+    depends_on:
+      - backend
+    environment:
+#      APOLLO_GRAPH_REF: /apollo-router/schema/supergraph.graphql
+      APOLLO_ROUTER_SUPERGRAPH_PATH: /apollo-router/schema/supergraph.graphql
+      APOLLO_ROUTER_CONFIG_PATH: /apollo-router/config/router.yaml
+      APOLLO_ROUTER_LOG: debug
+      APOLLO_TELEMETRY_DISABLED: 1
+    volumes:
+      - ./router/supergraph.graphql:/apollo-router/schema/supergraph.graphql
+      - ./router/router.yaml:/apollo-router/config/router.yaml
+
   postgres:
-    container_name: ${SERVICE_NAME}_postgres
+    container_name: federation_postgres
     image: postgres:14.5
     ports:
       - "5432:5432"

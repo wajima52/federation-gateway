@@ -1,0 +1,8 @@
+#    schema:
+#      file: ../backend/graph/schema.graphqls
+sandbox:
+  enabled: true
+homepage:
+  enabled: false
+supergraph:
+  introspection: true
