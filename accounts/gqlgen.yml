@@ -51,5 +51,9 @@ autobind:
 # modelgen, the others will be allowed when binding to fields. Configure them to
 # your liking
 models:
+  ID: # The GraphQL type ID is backed by
+    model:
+      - github.com/99designs/gqlgen/graphql.IntID # a go integer
+      - github.com/99designs/gqlgen/graphql.ID
   Account:
     model: subgraph/models.Account

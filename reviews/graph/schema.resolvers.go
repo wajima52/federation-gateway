@@ -21,6 +21,11 @@ func (r *reviewResolver) Author(ctx context.Context, obj *models.Review) (*model
 	panic(fmt.Errorf("not implemented: Author - author"))
 }
 
+// Product is the resolver for the product field.
+func (r *reviewResolver) Product(ctx context.Context, obj *models.Review) (*model.Product, error) {
+	panic(fmt.Errorf("not implemented: Product - product"))
+}
+
 // Review returns generated.ReviewResolver implementation.
 func (r *Resolver) Review() generated.ReviewResolver { return &reviewResolver{r} }
 

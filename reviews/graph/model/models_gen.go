@@ -2,10 +2,20 @@
 
 package model
 
+import (
+	"subgraph/models"
+)
+
 type Account struct {
-	ID    string `json:"id"`
-	Name  string `json:"name"`
-	Email string `json:"email"`
+	ID      int              `json:"id"`
+	Reviews []*models.Review `json:"reviews"`
 }
 
 func (Account) IsEntity() {}
+
+type Product struct {
+	ID      int              `json:"id"`
+	Reviews []*models.Review `json:"reviews"`
+}
+
+func (Product) IsEntity() {}
