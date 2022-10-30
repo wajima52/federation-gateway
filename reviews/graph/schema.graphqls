@@ -2,3 +2,16 @@
 #
 # https://gqlgen.com/getting-started/
 
+type Review {
+    content: String!
+    author: Account!
+    product: Product!
+}
+
+extend type Account @key(fields: "id") {
+    reviews: [Review] @requires(fields: "name")
+}
+
+extend type Product @key(fields: "id") {
+    reviews: [Review]
+}

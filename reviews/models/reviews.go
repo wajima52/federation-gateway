@@ -14,6 +14,7 @@ import (
 	"time"
 
 	"github.com/friendsofgo/errors"
+	"github.com/volatiletech/null/v8"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
@@ -23,10 +24,11 @@ import (
 
 // Review is an object representing the database table.
 type Review struct {
-	ID        int `boil:"id" json:"id" toml:"id" yaml:"id"`
-	UserID    int `boil:"user_id" json:"userID" toml:"userID" yaml:"userID"`
-	ProductID int `boil:"product_id" json:"productID" toml:"productID" yaml:"productID"`
-	Point     int `boil:"point" json:"point" toml:"point" yaml:"point"`
+	ID        int         `boil:"id" json:"id" toml:"id" yaml:"id"`
+	UserID    int         `boil:"user_id" json:"userID" toml:"userID" yaml:"userID"`
+	ProductID int         `boil:"product_id" json:"productID" toml:"productID" yaml:"productID"`
+	Point     int         `boil:"point" json:"point" toml:"point" yaml:"point"`
+	Content   null.String `boil:"content" json:"content,omitempty" toml:"content" yaml:"content,omitempty"`
 
 	R *reviewR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L reviewL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -37,11 +39,13 @@ var ReviewColumns = struct {
 	UserID    string
 	ProductID string
 	Point     string
+	Content   string
 }{
 	ID:        "id",
 	UserID:    "user_id",
 	ProductID: "product_id",
 	Point:     "point",
+	Content:   "content",
 }
 
 var ReviewTableColumns = struct {
@@ -49,11 +53,13 @@ var ReviewTableColumns = struct {
 	UserID    string
 	ProductID string
 	Point     string
+	Content   string
 }{
 	ID:        "reviews.id",
 	UserID:    "reviews.user_id",
 	ProductID: "reviews.product_id",
 	Point:     "reviews.point",
+	Content:   "reviews.content",
 }
 
 // Generated where
@@ -81,16 +87,56 @@ func (w whereHelperint) NIN(slice []int) qm.QueryMod {
 	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
 }
 
+type whereHelpernull_String struct{ field string }
+
+func (w whereHelpernull_String) EQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, false, x)
+}
+func (w whereHelpernull_String) NEQ(x null.String) qm.QueryMod {
+	return qmhelper.WhereNullEQ(w.field, true, x)
+}
+func (w whereHelpernull_String) LT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LT, x)
+}
+func (w whereHelpernull_String) LTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.LTE, x)
+}
+func (w whereHelpernull_String) GT(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GT, x)
+}
+func (w whereHelpernull_String) GTE(x null.String) qm.QueryMod {
+	return qmhelper.Where(w.field, qmhelper.GTE, x)
+}
+func (w whereHelpernull_String) IN(slice []string) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereIn(fmt.Sprintf("%s IN ?", w.field), values...)
+}
+func (w whereHelpernull_String) NIN(slice []string) qm.QueryMod {
+	values := make([]interface{}, 0, len(slice))
+	for _, value := range slice {
+		values = append(values, value)
+	}
+	return qm.WhereNotIn(fmt.Sprintf("%s NOT IN ?", w.field), values...)
+}
+
+func (w whereHelpernull_String) IsNull() qm.QueryMod    { return qmhelper.WhereIsNull(w.field) }
+func (w whereHelpernull_String) IsNotNull() qm.QueryMod { return qmhelper.WhereIsNotNull(w.field) }
+
 var ReviewWhere = struct {
 	ID        whereHelperint
 	UserID    whereHelperint
 	ProductID whereHelperint
 	Point     whereHelperint
+	Content   whereHelpernull_String
 }{
 	ID:        whereHelperint{field: "\"reviews\".\"id\""},
 	UserID:    whereHelperint{field: "\"reviews\".\"user_id\""},
 	ProductID: whereHelperint{field: "\"reviews\".\"product_id\""},
 	Point:     whereHelperint{field: "\"reviews\".\"point\""},
+	Content:   whereHelpernull_String{field: "\"reviews\".\"content\""},
 }
 
 // ReviewRels is where relationship names are stored.
@@ -110,9 +156,9 @@ func (*reviewR) NewStruct() *reviewR {
 type reviewL struct{}
 
 var (
-	reviewAllColumns            = []string{"id", "user_id", "product_id", "point"}
+	reviewAllColumns            = []string{"id", "user_id", "product_id", "point", "content"}
 	reviewColumnsWithoutDefault = []string{"user_id", "product_id", "point"}
-	reviewColumnsWithDefault    = []string{"id"}
+	reviewColumnsWithDefault    = []string{"id", "content"}
 	reviewPrimaryKeyColumns     = []string{"id"}
 	reviewGeneratedColumns      = []string{}
 )
