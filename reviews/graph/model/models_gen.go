@@ -3,7 +3,7 @@
 package model
 
 import (
-	"subgraph/models"
+	"reviews/models"
 )
 
 type Account struct {

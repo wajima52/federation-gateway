@@ -7,8 +7,8 @@ import (
 	"log"
 	"net/http"
 	"os"
-	"subgraph/graph"
-	"subgraph/graph/generated"
+	"reviews/graph"
+	"reviews/graph/generated"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"

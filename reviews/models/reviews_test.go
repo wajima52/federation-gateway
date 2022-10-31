@@ -568,7 +568,7 @@ func testReviewsSelect(t *testing.T) {
 }
 
 var (
-	reviewDBTypes = map[string]string{`ID`: `integer`, `UserID`: `integer`, `ProductID`: `integer`, `Point`: `integer`, `Content`: `character varying`}
+	reviewDBTypes = map[string]string{`ID`: `integer`, `UserID`: `integer`, `ProductID`: `integer`, `Point`: `integer`, `Text`: `character varying`}
 	_             = bytes.MinRead
 )
 

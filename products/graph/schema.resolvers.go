@@ -5,8 +5,8 @@ package graph
 
 import (
 	"context"
-	"subgraph/graph/generated"
-	"subgraph/models"
+	"products/graph/generated"
+	"products/models"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"

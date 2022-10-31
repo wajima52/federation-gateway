@@ -55,4 +55,4 @@ models:
       - github.com/99designs/gqlgen/graphql.IntID # a go integer
       - github.com/99designs/gqlgen/graphql.ID
   Product:
-    model: subgraph/models.Product
+    model: products/models.Product

@@ -6,8 +6,8 @@ package graph
 import (
 	"context"
 	"github.com/volatiletech/sqlboiler/v4/boil"
-	"subgraph/graph/generated"
-	"subgraph/models"
+	"products/graph/generated"
+	"products/models"
 )
 
 // FindProductByID is the resolver for the findProductByID field.

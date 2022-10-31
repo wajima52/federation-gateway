@@ -4,9 +4,9 @@ package graph
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
+	"accounts/graph/generated"
+	"accounts/models"
 	"context"
-	"subgraph/graph/generated"
-	"subgraph/models"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )

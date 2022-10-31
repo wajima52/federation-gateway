@@ -28,7 +28,7 @@ type Review struct {
 	UserID    int         `boil:"user_id" json:"userID" toml:"userID" yaml:"userID"`
 	ProductID int         `boil:"product_id" json:"productID" toml:"productID" yaml:"productID"`
 	Point     int         `boil:"point" json:"point" toml:"point" yaml:"point"`
-	Content   null.String `boil:"content" json:"content,omitempty" toml:"content" yaml:"content,omitempty"`
+	Text      null.String `boil:"text" json:"text,omitempty" toml:"text" yaml:"text,omitempty"`
 
 	R *reviewR `boil:"-" json:"-" toml:"-" yaml:"-"`
 	L reviewL  `boil:"-" json:"-" toml:"-" yaml:"-"`
@@ -39,13 +39,13 @@ var ReviewColumns = struct {
 	UserID    string
 	ProductID string
 	Point     string
-	Content   string
+	Text      string
 }{
 	ID:        "id",
 	UserID:    "user_id",
 	ProductID: "product_id",
 	Point:     "point",
-	Content:   "content",
+	Text:      "text",
 }
 
 var ReviewTableColumns = struct {
@@ -53,13 +53,13 @@ var ReviewTableColumns = struct {
 	UserID    string
 	ProductID string
 	Point     string
-	Content   string
+	Text      string
 }{
 	ID:        "reviews.id",
 	UserID:    "reviews.user_id",
 	ProductID: "reviews.product_id",
 	Point:     "reviews.point",
-	Content:   "reviews.content",
+	Text:      "reviews.text",
 }
 
 // Generated where
@@ -130,13 +130,13 @@ var ReviewWhere = struct {
 	UserID    whereHelperint
 	ProductID whereHelperint
 	Point     whereHelperint
-	Content   whereHelpernull_String
+	Text      whereHelpernull_String
 }{
 	ID:        whereHelperint{field: "\"reviews\".\"id\""},
 	UserID:    whereHelperint{field: "\"reviews\".\"user_id\""},
 	ProductID: whereHelperint{field: "\"reviews\".\"product_id\""},
 	Point:     whereHelperint{field: "\"reviews\".\"point\""},
-	Content:   whereHelpernull_String{field: "\"reviews\".\"content\""},
+	Text:      whereHelpernull_String{field: "\"reviews\".\"text\""},
 }
 
 // ReviewRels is where relationship names are stored.
@@ -156,9 +156,9 @@ func (*reviewR) NewStruct() *reviewR {
 type reviewL struct{}
 
 var (
-	reviewAllColumns            = []string{"id", "user_id", "product_id", "point", "content"}
+	reviewAllColumns            = []string{"id", "user_id", "product_id", "point", "text"}
 	reviewColumnsWithoutDefault = []string{"user_id", "product_id", "point"}
-	reviewColumnsWithDefault    = []string{"id", "content"}
+	reviewColumnsWithDefault    = []string{"id", "text"}
 	reviewPrimaryKeyColumns     = []string{"id"}
 	reviewGeneratedColumns      = []string{}
 )

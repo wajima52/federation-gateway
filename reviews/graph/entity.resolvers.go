@@ -5,9 +5,9 @@ package graph
 
 import (
 	"context"
-	"subgraph/graph/generated"
-	"subgraph/graph/model"
-	"subgraph/models"
+	"reviews/graph/generated"
+	"reviews/graph/model"
+	"reviews/models"
 
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )

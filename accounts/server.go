@@ -1,14 +1,14 @@
 package main
 
 import (
+	"accounts/graph"
+	"accounts/graph/generated"
 	"database/sql"
 	"fmt"
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"log"
 	"net/http"
 	"os"
-	"subgraph/graph"
-	"subgraph/graph/generated"
 
 	"github.com/99designs/gqlgen/graphql/handler"
 	"github.com/99designs/gqlgen/graphql/playground"

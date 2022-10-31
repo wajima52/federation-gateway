@@ -4,7 +4,7 @@
 
 type Review @key(fields: "id") {
     id: ID!
-    content: String!
+    text: String
     author: Account!
     product: Product!
     point: Int!
@@ -18,4 +18,8 @@ extend type Account @key(fields: "id") {
 extend type Product @key(fields: "id") {
     id: ID! @external
     reviews: [Review] @requires(fields: "id")
+}
+
+type Query {
+    reviews(count: Int = 10): [Review!]!
 }

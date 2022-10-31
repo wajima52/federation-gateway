@@ -1,6 +1,6 @@
 package graph
 
-import "subgraph/models"
+import "accounts/models"
 
 // This file will not be regenerated automatically.
 //

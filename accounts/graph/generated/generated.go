@@ -3,12 +3,12 @@
 package generated
 
 import (
+	"accounts/models"
 	"bytes"
 	"context"
 	"errors"
 	"fmt"
 	"strconv"
-	"subgraph/models"
 	"sync"
 	"sync/atomic"
 
