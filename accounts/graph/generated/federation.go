@@ -100,6 +100,30 @@ func (ec *executionContext) __resolve_entities(ctx context.Context, representati
 				list[idx[i]] = entity
 				return nil
 			}
+		case "Review":
+			resolverName, err := entityResolverNameForReview(ctx, rep)
+			if err != nil {
+				return fmt.Errorf(`finding resolver for Entity "Review": %w`, err)
+			}
+			switch resolverName {
+
+			case "findReviewByID":
+				id0, err := ec.unmarshalNID2int(ctx, rep["id"])
+				if err != nil {
+					return fmt.Errorf(`unmarshalling param 0 for findReviewByID(): %w`, err)
+				}
+				entity, err := ec.resolvers.Entity().FindReviewByID(ctx, id0)
+				if err != nil {
+					return fmt.Errorf(`resolving Entity "Review": %w`, err)
+				}
+
+				entity.ID, err = ec.unmarshalNID2int(ctx, rep["id"])
+				if err != nil {
+					return err
+				}
+				list[idx[i]] = entity
+				return nil
+			}
 
 		}
 		return fmt.Errorf("%w: %s", ErrUnknownType, typeName)
@@ -184,4 +208,21 @@ func entityResolverNameForAccount(ctx context.Context, rep map[string]interface{
 		return "findAccountByID", nil
 	}
 	return "", fmt.Errorf("%w for Account", ErrTypeNotFound)
+}
+
+func entityResolverNameForReview(ctx context.Context, rep map[string]interface{}) (string, error) {
+	for {
+		var (
+			m   map[string]interface{}
+			val interface{}
+			ok  bool
+		)
+		_ = val
+		m = rep
+		if _, ok = m["id"]; !ok {
+			break
+		}
+		return "findReviewByID", nil
+	}
+	return "", fmt.Errorf("%w for Review", ErrTypeNotFound)
 }

@@ -5,15 +5,22 @@ package graph
 
 import (
 	"accounts/graph/generated"
+	"accounts/graph/model"
 	"accounts/models"
 	"context"
-
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 
 // FindAccountByID is the resolver for the findAccountByID field.
 func (r *entityResolver) FindAccountByID(ctx context.Context, id int) (*models.Account, error) {
 	return models.FindAccount(ctx, boil.GetContextDB(), id)
+}
+
+// FindReviewByID is the resolver for the findReviewByID field.
+func (r *entityResolver) FindReviewByID(ctx context.Context, id int) (*model.Review, error) {
+	return &model.Review{
+		ID: id,
+	}, nil
 }
 
 // Entity returns generated.EntityResolver implementation.

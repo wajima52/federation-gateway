@@ -8,6 +8,11 @@ type Account @key(fields: "id"){
     email: String!
 }
 
+extend type Review @key(fields: "id"){
+    id: ID! @external
+    author: Account @requires(fields: "id")
+}
+
 type Query {
     accounts(count: Int = 10): [Account!]!
 }

@@ -5,7 +5,6 @@
 type Review @key(fields: "id") {
     id: ID!
     text: String
-    author: Account!
     product: Product!
     point: Int!
 }
