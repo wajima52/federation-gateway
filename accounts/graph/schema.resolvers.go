@@ -4,10 +4,11 @@ package graph
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
+	"accounts/dataloader"
 	"accounts/graph/generated"
+	"accounts/graph/model"
 	"accounts/models"
 	"context"
-
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
@@ -17,7 +18,16 @@ func (r *queryResolver) Accounts(ctx context.Context, count *int) ([]*models.Acc
 	return models.Accounts(qm.Limit(*count)).All(ctx, boil.GetContextDB())
 }
 
+// Author is the resolver for the author field.
+func (r *reviewResolver) Author(ctx context.Context, obj *model.Review) (*models.Account, error) {
+	return dataloader.GetAccount(ctx, obj.UserID)
+}
+
 // Query returns generated.QueryResolver implementation.
 func (r *Resolver) Query() generated.QueryResolver { return &queryResolver{r} }
 
+// Review returns generated.ReviewResolver implementation.
+func (r *Resolver) Review() generated.ReviewResolver { return &reviewResolver{r} }
+
 type queryResolver struct{ *Resolver }
+type reviewResolver struct{ *Resolver }

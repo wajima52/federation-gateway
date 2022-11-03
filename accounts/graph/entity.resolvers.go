@@ -8,6 +8,7 @@ import (
 	"accounts/graph/model"
 	"accounts/models"
 	"context"
+
 	"github.com/volatiletech/sqlboiler/v4/boil"
 )
 

@@ -5,7 +5,6 @@ package graph
 
 import (
 	"context"
-	"fmt"
 	"reviews/graph/generated"
 	"reviews/graph/model"
 	"reviews/models"
@@ -24,13 +23,6 @@ func (r *reviewResolver) Text(ctx context.Context, obj *models.Review) (*string,
 	return &obj.Text.String, nil
 }
 
-// Author is the resolver for the author field.
-func (r *reviewResolver) Author(ctx context.Context, obj *models.Review) (*model.Account, error) {
-	return &model.Account{
-		ID: obj.UserID,
-	}, nil
-}
-
 // Product is the resolver for the product field.
 func (r *reviewResolver) Product(ctx context.Context, obj *models.Review) (*model.Product, error) {
 	return &model.Product{
@@ -46,13 +38,3 @@ func (r *Resolver) Review() generated.ReviewResolver { return &reviewResolver{r}
 
 type queryResolver struct{ *Resolver }
 type reviewResolver struct{ *Resolver }
-
-// !!! WARNING !!!
-// The code below was going to be deleted when updating resolvers. It has been copied here so you have
-// one last chance to move it out of harms way if you want. There are two reasons this happens:
-//   - When renaming or deleting a resolver the old code will be put in here. You can safely delete
-//     it when you're done.
-//   - You have helper methods in this file. Move them out to keep these resolver files clean.
-func (r *reviewResolver) Content(ctx context.Context, obj *models.Review) (*string, error) {
-	panic(fmt.Errorf("not implemented: Content - content"))
-}

@@ -40,6 +40,7 @@ type Config struct {
 type ResolverRoot interface {
 	Entity() EntityResolver
 	Query() QueryResolver
+	Review() ReviewResolver
 }
 
 type DirectiveRoot struct {
@@ -66,6 +67,7 @@ type ComplexityRoot struct {
 	Review struct {
 		Author func(childComplexity int) int
 		ID     func(childComplexity int) int
+		UserID func(childComplexity int) int
 	}
 
 	_Service struct {
@@ -79,6 +81,9 @@ type EntityResolver interface {
 }
 type QueryResolver interface {
 	Accounts(ctx context.Context, count *int) ([]*models.Account, error)
+}
+type ReviewResolver interface {
+	Author(ctx context.Context, obj *model.Review) (*models.Account, error)
 }
 
 type executableSchema struct {
@@ -186,6 +191,13 @@ func (e *executableSchema) Complexity(typeName, field string, childComplexity in
 
 		return e.complexity.Review.ID(childComplexity), true
 
+	case "Review.user_id":
+		if e.complexity.Review.UserID == nil {
+			break
+		}
+
+		return e.complexity.Review.UserID(childComplexity), true
+
 	case "_Service.sdl":
 		if e.complexity._Service.SDL == nil {
 			break
@@ -248,6 +260,7 @@ var sources = []*ast.Source{
 	{Name: "../schema.graphqls", Input: `# GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
+directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 type Account @key(fields: "id"){
     id: ID!
@@ -257,7 +270,8 @@ type Account @key(fields: "id"){
 
 extend type Review @key(fields: "id"){
     id: ID! @external
-    author: Account @requires(fields: "id")
+    user_id: ID! @external
+    author: Account @requires(fields: "user_id") @goField(forceResolver: true)
 }
 
 type Query {
@@ -655,6 +669,8 @@ func (ec *executionContext) fieldContext_Entity_findReviewByID(ctx context.Conte
 			switch field.Name {
 			case "id":
 				return ec.fieldContext_Review_id(ctx, field)
+			case "user_id":
+				return ec.fieldContext_Review_user_id(ctx, field)
 			case "author":
 				return ec.fieldContext_Review_author(ctx, field)
 			}
@@ -1014,6 +1030,50 @@ func (ec *executionContext) fieldContext_Review_id(ctx context.Context, field gr
 	return fc, nil
 }
 
+func (ec *executionContext) _Review_user_id(ctx context.Context, field graphql.CollectedField, obj *model.Review) (ret graphql.Marshaler) {
+	fc, err := ec.fieldContext_Review_user_id(ctx, field)
+	if err != nil {
+		return graphql.Null
+	}
+	ctx = graphql.WithFieldContext(ctx, fc)
+	defer func() {
+		if r := recover(); r != nil {
+			ec.Error(ctx, ec.Recover(ctx, r))
+			ret = graphql.Null
+		}
+	}()
+	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
+		ctx = rctx // use context from middleware stack in children
+		return obj.UserID, nil
+	})
+	if err != nil {
+		ec.Error(ctx, err)
+		return graphql.Null
+	}
+	if resTmp == nil {
+		if !graphql.HasFieldError(ctx, fc) {
+			ec.Errorf(ctx, "must not be null")
+		}
+		return graphql.Null
+	}
+	res := resTmp.(int)
+	fc.Result = res
+	return ec.marshalNID2int(ctx, field.Selections, res)
+}
+
+func (ec *executionContext) fieldContext_Review_user_id(ctx context.Context, field graphql.CollectedField) (fc *graphql.FieldContext, err error) {
+	fc = &graphql.FieldContext{
+		Object:     "Review",
+		Field:      field,
+		IsMethod:   false,
+		IsResolver: false,
+		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
+			return nil, errors.New("field of type ID does not have child fields")
+		},
+	}
+	return fc, nil
+}
+
 func (ec *executionContext) _Review_author(ctx context.Context, field graphql.CollectedField, obj *model.Review) (ret graphql.Marshaler) {
 	fc, err := ec.fieldContext_Review_author(ctx, field)
 	if err != nil {
@@ -1028,7 +1088,7 @@ func (ec *executionContext) _Review_author(ctx context.Context, field graphql.Co
 	}()
 	resTmp, err := ec.ResolverMiddleware(ctx, func(rctx context.Context) (interface{}, error) {
 		ctx = rctx // use context from middleware stack in children
-		return obj.Author, nil
+		return ec.resolvers.Review().Author(rctx, obj)
 	})
 	if err != nil {
 		ec.Error(ctx, err)
@@ -1046,8 +1106,8 @@ func (ec *executionContext) fieldContext_Review_author(ctx context.Context, fiel
 	fc = &graphql.FieldContext{
 		Object:     "Review",
 		Field:      field,
-		IsMethod:   false,
-		IsResolver: false,
+		IsMethod:   true,
+		IsResolver: true,
 		Child: func(ctx context.Context, field graphql.CollectedField) (*graphql.FieldContext, error) {
 			switch field.Name {
 			case "id":
@@ -3152,12 +3212,32 @@ func (ec *executionContext) _Review(ctx context.Context, sel ast.SelectionSet, o
 			out.Values[i] = ec._Review_id(ctx, field, obj)
 
 			if out.Values[i] == graphql.Null {
-				invalids++
+				atomic.AddUint32(&invalids, 1)
+			}
+		case "user_id":
+
+			out.Values[i] = ec._Review_user_id(ctx, field, obj)
+
+			if out.Values[i] == graphql.Null {
+				atomic.AddUint32(&invalids, 1)
 			}
 		case "author":
+			field := field
 
-			out.Values[i] = ec._Review_author(ctx, field, obj)
+			innerFunc := func(ctx context.Context) (res graphql.Marshaler) {
+				defer func() {
+					if r := recover(); r != nil {
+						ec.Error(ctx, ec.Recover(ctx, r))
+					}
+				}()
+				res = ec._Review_author(ctx, field, obj)
+				return res
+			}
 
+			out.Concurrently(i, func() graphql.Marshaler {
+				return innerFunc(ctx)
+
+			})
 		default:
 			panic("unknown field " + strconv.Quote(field.Name))
 		}

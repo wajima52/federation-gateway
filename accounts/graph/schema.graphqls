@@ -1,6 +1,7 @@
 # GraphQL schema example
 #
 # https://gqlgen.com/getting-started/
+directive @goField(forceResolver: Boolean, name: String) on INPUT_FIELD_DEFINITION | FIELD_DEFINITION
 
 type Account @key(fields: "id"){
     id: ID!
@@ -10,7 +11,8 @@ type Account @key(fields: "id"){
 
 extend type Review @key(fields: "id"){
     id: ID! @external
-    author: Account @requires(fields: "id")
+    user_id: ID! @external
+    author: Account @requires(fields: "user_id") @goField(forceResolver: true)
 }
 
 type Query {

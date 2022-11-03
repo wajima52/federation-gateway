@@ -117,7 +117,7 @@ func (ec *executionContext) __resolve_entities(ctx context.Context, representati
 					return fmt.Errorf(`resolving Entity "Review": %w`, err)
 				}
 
-				entity.ID, err = ec.unmarshalNID2int(ctx, rep["id"])
+				entity.UserID, err = ec.unmarshalNID2int(ctx, rep["user_id"])
 				if err != nil {
 					return err
 				}

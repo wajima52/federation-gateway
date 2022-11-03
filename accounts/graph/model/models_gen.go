@@ -8,6 +8,7 @@ import (
 
 type Review struct {
 	ID     int             `json:"id"`
+	UserID int             `json:"user_id"`
 	Author *models.Account `json:"author"`
 }
 
