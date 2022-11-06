@@ -1,7 +1,0 @@
-[psql]
-dbname="federation"
-host="federation_postgres"
-user="federation"
-pass="development"
-blacklist=["schema_migrations"]
-sslmode="disable"
