@@ -1,0 +1,14 @@
+federation_version: 2
+subgraphs:
+  accounts:
+    routing_url: https://localhost:8082
+    schema:
+      file: ./accounts/graph/schema.graphqls
+  products:
+    routing_url: https://localhost:8083
+    schema:
+      file: ./products/graph/schema.graphqls
+  reviews:
+    routing_url: https://localhost:8084
+    schema:
+      file: ./reviews/graph/schema.graphqls

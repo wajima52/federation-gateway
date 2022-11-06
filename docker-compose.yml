@@ -13,21 +13,6 @@ services:
       - products
       - reviews
 
-  backend:
-    container_name: federation_backend
-    build:
-      context: .
-      dockerfile: docker/backend/Dockerfile
-    ports:
-      - "8080:8080"
-    volumes:
-      - ./backend:/go/src/app
-    environment:
-      - POSTGRESQL_URL=postgres://${POSTGRES_USER}:${POSTGRES_PASSWORD}@federation_postgres:5432/${POSTGRES_USER}?sslmode=disable
-      - PSQL_PASS=${POSTGRES_PASSWORD}
-      - PSQL_USER=${POSTGRES_USER}
-      - PSQL_DB=${POSTGRES_USER}
-      - PSQL_HOSTNAME=federation_postgres
   accounts:
     container_name: federation_accounts
     build:

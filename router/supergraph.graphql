@@ -1,30 +1,80 @@
-directive @defer(label: String, if: Boolean! = true) on FRAGMENT_SPREAD | INLINE_FRAGMENT
-
-type Account {
-  id: ID!
-  name: String!
-  email: String!
-  reviews: [Review]
+schema
+  @link(url: "https://specs.apollo.dev/link/v1.0")
+  @link(url: "https://specs.apollo.dev/join/v0.2", for: EXECUTION)
+{
+  query: Query
 }
 
-type Product {
+directive @join__field(graph: join__Graph!, requires: join__FieldSet, provides: join__FieldSet, type: String, external: Boolean, override: String, usedOverridden: Boolean) repeatable on FIELD_DEFINITION | INPUT_FIELD_DEFINITION
+
+directive @join__graph(name: String!, url: String!) on ENUM_VALUE
+
+directive @join__implements(graph: join__Graph!, interface: String!) repeatable on OBJECT | INTERFACE
+
+directive @join__type(graph: join__Graph!, key: join__FieldSet, extension: Boolean! = false, resolvable: Boolean! = true) repeatable on OBJECT | INTERFACE | UNION | ENUM | INPUT_OBJECT | SCALAR
+
+directive @link(url: String, as: String, for: link__Purpose, import: [link__Import]) repeatable on SCHEMA
+
+type Account
+  @join__type(graph: ACCOUNTS, key: "id")
+  @join__type(graph: REVIEWS, key: "id")
+{
   id: ID!
-  name: String!
-  price: Int!
-  reviews: [Review]
+  name: String! @join__field(graph: ACCOUNTS)
+  email: String! @join__field(graph: ACCOUNTS)
+  reviews: [Review] @join__field(graph: REVIEWS)
 }
 
-type Query {
-  accounts(count: Int = 10): [Account!]!
-  products(count: Int = 10): [Product!]!
-  reviews(count: Int = 10): [Review!]!
+scalar join__FieldSet
+
+enum join__Graph {
+  ACCOUNTS @join__graph(name: "accounts", url: "https://localhost:8082")
+  PRODUCTS @join__graph(name: "products", url: "https://localhost:8083")
+  REVIEWS @join__graph(name: "reviews", url: "https://localhost:8084")
 }
 
-type Review {
+scalar link__Import
+
+enum link__Purpose {
+  """
+  `SECURITY` features provide metadata necessary to securely resolve fields.
+  """
+  SECURITY
+
+  """
+  `EXECUTION` features provide metadata necessary for operation execution.
+  """
+  EXECUTION
+}
+
+type Product
+  @join__type(graph: PRODUCTS, key: "id")
+  @join__type(graph: REVIEWS, key: "id")
+{
   id: ID!
-  user_id: ID!
-  author: Account
-  text: String
-  product: Product!
-  point: Int!
+  name: String! @join__field(graph: PRODUCTS)
+  price: Int! @join__field(graph: PRODUCTS)
+  reviews: [Review] @join__field(graph: REVIEWS)
+}
+
+type Query
+  @join__type(graph: ACCOUNTS)
+  @join__type(graph: PRODUCTS)
+  @join__type(graph: REVIEWS)
+{
+  accounts(count: Int = 10): [Account!]! @join__field(graph: ACCOUNTS)
+  products(count: Int = 10): [Product!]! @join__field(graph: PRODUCTS)
+  reviews(count: Int = 10): [Review!]! @join__field(graph: REVIEWS)
+}
+
+type Review
+  @join__type(graph: ACCOUNTS, key: "id")
+  @join__type(graph: REVIEWS, key: "id")
+{
+  id: ID!
+  user_id: ID! @join__field(graph: ACCOUNTS, external: true) @join__field(graph: REVIEWS)
+  author: Account @join__field(graph: ACCOUNTS, requires: "user_id")
+  text: String @join__field(graph: REVIEWS)
+  product: Product! @join__field(graph: REVIEWS)
+  point: Int! @join__field(graph: REVIEWS)
 }

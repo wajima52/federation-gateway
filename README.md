@@ -37,12 +37,19 @@ roverをインストール
 ```bash
 curl -sSL https://rover.apollo.dev/nix/latest | sh
 ```
-#### supergraph schema作成手順
+
+#### Supergraph Schema作成
+1. 以下のコマンドを実行
+```bash
+rover supergraph compose --config ./supergraph.yaml > ./router/supergraph.graphql 
+```
+
+#### 開発環境 supergraph確認手順
 1. ３つのターミナルそれぞれで以下のコマンドを１つずつ実行
 ```bash
 rover dev -p 5001 --name accounts --schema ./accounts/graph/schema.graphqls --url http://localhost:8082/query
 rover dev -p 5001 --name products --schema ./products/graph/schema.graphqls --url http://localhost:8083/query
 rover dev -p 5001 --name reviews  --schema ./reviews/graph/schema.graphqls  --url http://localhost:8084/query
 ```
-2. `http://localhost:5001`へアクセスし、`Schema` > `SDL`を開く
-3. コピーするかschemaをダウンロード
+2. `http://localhost:5001`へアクセス
+
