@@ -6,3 +6,4 @@ homepage:
   enabled: false
 supergraph:
   introspection: true
+  listen: 0.0.0.0:4000

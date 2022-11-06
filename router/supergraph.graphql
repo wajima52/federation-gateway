@@ -28,9 +28,9 @@ type Account
 scalar join__FieldSet
 
 enum join__Graph {
-  ACCOUNTS @join__graph(name: "accounts", url: "https://localhost:8082")
-  PRODUCTS @join__graph(name: "products", url: "https://localhost:8083")
-  REVIEWS @join__graph(name: "reviews", url: "https://localhost:8084")
+  ACCOUNTS @join__graph(name: "accounts", url: "http://federation_accounts:8082/query")
+  PRODUCTS @join__graph(name: "products", url: "http://federation_products:8083/query")
+  REVIEWS @join__graph(name: "reviews", url: "http://federation_reviews:8084/query")
 }
 
 scalar link__Import

@@ -64,12 +64,14 @@ services:
   router:
     container_name: federation_router
     image: ghcr.io/apollographql/router:v1.2.0
+    restart: "always"
     ports:
       - "4000:4000"
     depends_on:
-      - backend
+      - accounts
+      - products
+      - reviews
     environment:
-#      APOLLO_GRAPH_REF: /apollo-router/schema/supergraph.graphql
       APOLLO_ROUTER_SUPERGRAPH_PATH: /apollo-router/schema/supergraph.graphql
       APOLLO_ROUTER_CONFIG_PATH: /apollo-router/config/router.yaml
       APOLLO_ROUTER_LOG: debug
