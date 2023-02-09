@@ -104,6 +104,17 @@ func TestAccountReader_GetUsers(t *testing.T) {
 				{Data: &models.Account{ID: 3, Name: "test3"}},
 			},
 		},
+		{
+			name: "IDが存在しない場合は空を返す",
+			fields: fields{
+				conn: nil,
+			},
+			args: args{
+				ctx:  context.Background(),
+				keys: dataloader.Keys{},
+			},
+			want: []*dataloader.Result{},
+		},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
