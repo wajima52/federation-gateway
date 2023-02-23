@@ -18,8 +18,9 @@ jobs:
       - name: build
         run: docker-compose build
       - name: cache save
-        if: steps.cache-docker.outputs.cache-hit != 'true'
-        run: mkdir /tmp/images && docker save federation-gateway-re_backend:latest federation-gateway-re_products:latest federation-gateway-re_reviews:latest federation-gateway-re_accounts:latest federation-gateway-re_gateway:latest -o /tmp/images
+        run: docker images
+#        if: steps.cache-docker.outputs.cache-hit != 'true'
+#        run: mkdir /tmp/images && docker save federation-gateway-re_backend:latest federation-gateway-re_products:latest federation-gateway-re_reviews:latest federation-gateway-re_accounts:latest federation-gateway-re_gateway:latest -o /tmp/images
       - name: cache load
         if: steps.cache-docker.outputs.cache-hit == 'true'
         run: docker load -i /tmp/images
