@@ -19,7 +19,8 @@ jobs:
       - run: docker-compose build
       - name: cache save
         if: steps.cache-docker.outputs.cache-hit != 'true'
-        run: docker save \
+        run: |
+        docker save \
         federation-gateway-re_backend:latest \
         federation-gateway-re_products:latest \
         federation-gateway-re_reviews:latest \
