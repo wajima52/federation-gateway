@@ -14,10 +14,8 @@ jobs:
       - uses: actions/cache@v3
         id: cache-docker
         with:
-          path: |
-            ~/.docker
-            ~/.docker-compose
-          key: ${{ runner.os }}-docker-${{ hashFiles('**/Dockerfile') }}
+          path: /tmp/.buildx-cache
+          key: ${{ github.ref }}-${{ github.sha }}
           restore-keys: |
             ${{ runner.os }}-docker-
       - name: docker-compose build
