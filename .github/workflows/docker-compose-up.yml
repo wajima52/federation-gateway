@@ -20,12 +20,6 @@ jobs:
       - name: cache save
         if: steps.cache-docker.outputs.cache-hit != 'true'
         run: |
-        docker save \
-        federation-gateway-re_backend:latest \
-        federation-gateway-re_products:latest \
-        federation-gateway-re_reviews:latest \
-        federation-gateway-re_accounts:latest \
-        federation-gateway-re_gateway:latest \
-        -o /tmp/cache-docker
+        docker save federation-gateway-re_backend:latest federation-gateway-re_products:latest federation-gateway-re_reviews:latest federation-gateway-re_accounts:latest federation-gateway-re_gateway:latest -o /tmp/cache-docker
       - name: docker-compose up
         run: docker-compose up -d
