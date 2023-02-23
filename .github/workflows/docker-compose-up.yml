@@ -1,5 +1,4 @@
 name: docker-compose-up-test
-run-name: ${{ github.actor }} is learning GitHub Actions
 on: [push]
 jobs:
   docker-compose-up:

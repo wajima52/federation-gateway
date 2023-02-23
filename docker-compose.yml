@@ -19,7 +19,7 @@ services:
       context: .
       dockerfile: docker/accounts/Dockerfile
     ports:
-      - "8082:8082"
+      - "10082:8082"
     volumes:
       - ./accounts:/go/src/app
     environment:
@@ -35,7 +35,7 @@ services:
       context: .
       dockerfile: docker/accounts/Dockerfile
     ports:
-      - "8083:8083"
+      - "10083:8083"
     volumes:
       - ./products:/go/src/app
     environment:
@@ -51,7 +51,7 @@ services:
       context: .
       dockerfile: docker/accounts/Dockerfile
     ports:
-      - "8084:8084"
+      - "10084:8084"
     volumes:
       - ./reviews:/go/src/app
     environment:
