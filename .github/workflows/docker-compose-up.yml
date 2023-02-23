@@ -16,11 +16,12 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ github.ref }}-${{ github.sha }}
       - name: build
-        uses: docker/build-push-action@v4
-        with:
-          context: .
-          push: false
-          cache-from: type=local,src=/tmp/.buildx-cache
-          cache-to: type=local,dest=/tmp/.buildx-cache
+        run: docker buildx bake --set *.cache-from=type=local,src=/tmp/.buildx-cache --set *.cache-to=type=local,dest=/tmp/.buildx-cache
+#        uses: docker/build-push-action@v4
+#        with:
+#          context: .
+#          push: false
+#          cache-from: type=local,src=/tmp/.buildx-cache
+#          cache-to: type=local,dest=/tmp/.buildx-cache
       - name: docker-compose up
         run: docker-compose up -d
