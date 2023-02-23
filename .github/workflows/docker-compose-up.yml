@@ -13,15 +13,18 @@ jobs:
       - uses: actions/cache@v3
         id: cache-docker
         with:
-          path: /tmp/.buildx-cache
+          path: /tmp/cache-docker
           key: ${{ github.ref }}-${{ github.sha }}
       - name: build
-        run: docker buildx bake --set *.cache-from=type=local,src=/tmp/.buildx-cache --set *.cache-to=type=local,dest=/tmp/.buildx-cache
-#        uses: docker/build-push-action@v4
-#        with:
-#          context: .
-#          push: false
-#          cache-from: type=local,src=/tmp/.buildx-cache
-#          cache-to: type=local,dest=/tmp/.buildx-cache
+      - run: docker-compose build
+      - name: cache save
+        if: steps.cache-docker.outputs.cache-hit != 'true'
+        run: docker save \
+        federation-gateway-re_backend:latest \
+        federation-gateway-re_products:latest \
+        federation-gateway-re_reviews:latest \
+        federation-gateway-re_accounts:latest \
+        federation-gateway-re_gateway:latest \
+        -o /tmp/cache-docker
       - name: docker-compose up
         run: docker-compose up -d
