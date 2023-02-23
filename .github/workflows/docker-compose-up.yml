@@ -15,8 +15,6 @@ jobs:
         with:
           path: /tmp/.buildx-cache
           key: ${{ github.ref }}-${{ github.sha }}
-          restore-keys: |
-            ${{ runner.os }}-docker-
       - name: docker-compose build
         run: docker-compose build
       - name: docker-compose up
