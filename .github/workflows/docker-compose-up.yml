@@ -17,8 +17,7 @@ jobs:
           key: ${{ github.ref }}-${{ github.sha }}
       - name: build
         run: docker buildx bake --load --set *.cache-from=type=local,src=/tmp/.buildx-cache --set *.cache-to=type=local,dest=/tmp/.buildx-cache
-      - name: cache load
-        if: steps.cache-docker.outputs.cache-hit == 'true'
+      - name: load cache
         run: docker load -i /tmp/.buildx-cache/*.tar
       - name: docker-compose up
         run: docker-compose up -d
