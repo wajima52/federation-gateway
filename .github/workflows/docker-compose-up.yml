@@ -16,7 +16,7 @@ jobs:
           path: /tmp/.buildx-cache
           key: ${{ github.ref }}-${{ github.sha }}
       - name: build
-        run: docker buildx bake --load --set *.cache-from=type=local,src=/tmp/.buildx-cache --set *.cache-to=type=local,dest=/tmp/.buildx-cache
+        run: docker buildx bake --load --set *.cache-from=type=local,src=/tmp/.buildx-cache --set *.cache-to=type=local,dest=/tmp/.buildx-cache --push
       - name: load cache
         run: docker load -i /tmp/.buildx-cache/*.tar
       - name: docker-compose up

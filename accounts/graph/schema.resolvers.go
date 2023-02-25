@@ -4,7 +4,6 @@ package graph
 // will be copied through when generating and any unknown code will be moved to the end.
 
 import (
-	"accounts/dataloader"
 	"accounts/graph/generated"
 	"accounts/graph/model"
 	"accounts/models"
@@ -20,7 +19,7 @@ func (r *queryResolver) Accounts(ctx context.Context, count *int) ([]*models.Acc
 
 // Author is the resolver for the author field.
 func (r *reviewResolver) Author(ctx context.Context, obj *model.Review) (*models.Account, error) {
-	return dataloader.GetAccount(ctx, obj.UserID)
+	return models.FindAccount(ctx, boil.GetContextDB(), obj.UserID)
 }
 
 // Query returns generated.QueryResolver implementation.
