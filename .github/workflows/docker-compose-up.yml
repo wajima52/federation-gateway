@@ -13,16 +13,12 @@ jobs:
       - uses: actions/cache@v3
         id: cache-docker
         with:
-          path: /tmp/images
+          path: /tmp/.buildx-cache
           key: ${{ github.ref }}-${{ github.sha }}
       - name: build
-        run: docker-compose build
-      - name: cache save
-        run: docker images
-#        if: steps.cache-docker.outputs.cache-hit != 'true'
-#        run: mkdir /tmp/images && docker save federation-gateway-re_backend:latest federation-gateway-re_products:latest federation-gateway-re_reviews:latest federation-gateway-re_accounts:latest federation-gateway-re_gateway:latest -o /tmp/images
+        run: docker buildx bake --load --set *.cache-from=type=local,src=/tmp/.buildx-cache --set *.cache-to=type=local,dest=/tmp/.buildx-cache
       - name: cache load
         if: steps.cache-docker.outputs.cache-hit == 'true'
-        run: docker load -i /tmp/images
+        run: docker load -i /tmp/.buildx-cache/*.tar
       - name: docker-compose up
         run: docker-compose up -d
