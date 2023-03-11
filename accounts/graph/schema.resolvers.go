@@ -8,13 +8,14 @@ import (
 	"accounts/graph/model"
 	"accounts/models"
 	"context"
+
 	"github.com/volatiletech/sqlboiler/v4/boil"
 	"github.com/volatiletech/sqlboiler/v4/queries/qm"
 )
 
 // Accounts is the resolver for the accounts field.
 func (r *queryResolver) Accounts(ctx context.Context, count *int) ([]*models.Account, error) {
-	return models.Accounts(qm.Limit(*count)).All(ctx, boil.GetContextDB())
+	return models.Accounts(qm.Limit(*count), qm.Load("AccountProfiles")).All(ctx, boil.GetContextDB())
 }
 
 // Author is the resolver for the author field.

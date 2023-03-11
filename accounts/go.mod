@@ -4,7 +4,11 @@ go 1.19
 
 require (
 	github.com/99designs/gqlgen v0.17.20
+	github.com/DATA-DOG/go-sqlmock v1.5.0
+	github.com/MicahParks/keyfunc v1.9.0
 	github.com/friendsofgo/errors v0.9.2
+	github.com/golang-jwt/jwt/v4 v4.4.3
+	github.com/google/go-cmp v0.5.9
 	github.com/graph-gophers/dataloader v5.0.0+incompatible
 	github.com/kat-co/vala v0.0.0-20170210184112-42e1d8b61f12
 	github.com/lib/pq v1.10.7
@@ -17,13 +21,10 @@ require (
 )
 
 require (
-	github.com/DATA-DOG/go-sqlmock v1.5.0 // indirect
-	github.com/MicahParks/keyfunc v1.9.0 // indirect
 	github.com/agnivade/levenshtein v1.1.1 // indirect
 	github.com/cpuguy83/go-md2man/v2 v2.0.1 // indirect
 	github.com/fsnotify/fsnotify v1.5.1 // indirect
 	github.com/gofrs/uuid v4.0.0+incompatible // indirect
-	github.com/golang-jwt/jwt/v4 v4.4.3 // indirect
 	github.com/gorilla/websocket v1.5.0 // indirect
 	github.com/hashicorp/golang-lru v0.5.4 // indirect
 	github.com/hashicorp/hcl v1.0.0 // indirect
